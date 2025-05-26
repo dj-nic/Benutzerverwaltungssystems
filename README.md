@@ -70,4 +70,4 @@ Die Präsentation ist auf etwa 5–7 Minuten pro Gruppe angesetzt. Sie sollte fo
 | 7      | Testphase, Dokumentation (README), Präsentation vorbereiten              |
 | 8      | Kundenpräsentation & Abschlussfeedback                                   |
 
-*Zuletzt geändert: Sonntag, 25. Mai 2025, 20:58*
+*Zuletzt geändert: Montag, 26. Mai 2025, 8:37*
