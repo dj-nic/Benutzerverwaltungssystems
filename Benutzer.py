@@ -25,6 +25,15 @@ class Benutzer:
     def getRechte(self):
         return self.rechte
     
+    def info(self):
+        print("=== Info ===")
+        print(f"Name: {self.name}")
+        print(f"Rolle: {self.rolle}")
+        print(f"Login-Status: {'Eingeloggt' if self.loginStatus else 'Ausgeloggt'}")
+        print(f"Rechte: {', '.join(self.rechte)}")
+    
+
+    
 
 class Lehrer(Benutzer):
     def __init__(self, name, passwort=None, loginStatus=False):
