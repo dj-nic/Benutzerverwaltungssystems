@@ -1,3 +1,4 @@
+import abc
 BENUTZER_RECHTE = {
     "Benutzer": ["Benutzer"],
     "Lehrer": ["Benutzer", "Lehrer"],
@@ -5,8 +6,10 @@ BENUTZER_RECHTE = {
     "Schueler": ["Benutzer", "Schueler"]
 }
 
-class Benutzer:
+
+class Benutzer(abc.ABC):
     anzahl_benutzer = 0  # Klassenattribut für die Gesamtanzahl
+    alleBenutzer = {}  # Klassenattribut für alle Benutzer
 
     def __init__(self, name, passwort=None, loginStatus=False, rolle="Benutzer"):
         self.name = name
@@ -15,6 +18,7 @@ class Benutzer:
         self.rolle = rolle
         self.rechte = BENUTZER_RECHTE.get(rolle, [])
         Benutzer.anzahl_benutzer += 1
+        Benutzer.alleBenutzer[name] = self
 
     # Getter-Methoden
     def getBenutzername(self):
