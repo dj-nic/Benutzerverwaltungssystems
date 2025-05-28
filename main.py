@@ -54,16 +54,22 @@ def home_menu(benutzer):
                 break
             else:
                 print("Funktion noch nicht implementiert.")
+                
         elif benutzer.rolle == "Admin":
             print("1. Benutzer verwalten")
             print("2. Systemeinstellungen")
             print("3. Abmelden")
             auswahl = input("Bitte wählen (1-3): ")
-            if auswahl == "3":
+            if auswahl == "1":
+                benutzer.benutzer_verwalten()
+            elif auswahl == "2":
+                benutzer.systemeinstellungen()
+            elif auswahl == "3":
                 print("Abgemeldet.")
                 break
             else:
-                print("Funktion noch nicht implementiert.")
+                print("Ungültige Auswahl.")
+
         else:
             print("1. Profil anzeigen")
             print("2. Abmelden")
