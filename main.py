@@ -59,7 +59,6 @@ def login():
 
 def home_menu(benutzer):
     while True:
-        username = benutzer.getBenutzername()
         print(f"-- Menü ({benutzer.rolle}) --")
         if benutzer.rolle == "Schueler":
             print("1. Profil\n2. Noten\n3. Kurse\n4. Abmelden")
@@ -95,10 +94,10 @@ def home_menu(benutzer):
             print("1. Alle Benutzer\n2. Löschen\n3. Abmelden")
             auswahl = input("> ")
             if auswahl == "1":
-                benutzer.zeige_anzahl_benutzer()
+                Benutzer.Benutzer.zeige_anzahl_benutzer()
             elif auswahl == "2":
                 zu_loeschen = input("Name: ")
-                Admin.benutzer_loeschen(zu_loeschen)
+                benutzer.benutzer_loeschen(zu_loeschen) 
             elif auswahl == "3":
                 print("Abgemeldet")
                 benutzer.setLoginStatus(False)

@@ -47,10 +47,10 @@ class Benutzer(abc.ABC):
         self.rolle = rolle
         self.rechte = BENUTZER_RECHTE.get(rolle, [])
 
-    # Klassenmethode
     @classmethod
     def zeige_anzahl_benutzer(cls):
-        return cls.anzahl_benutzer
+        print(f"Anzahl der Benutzer: {cls.anzahl_benutzer}")
+    
     def info(self):
         print("=== Info ===")
         print(f"Name: {self.name}")
