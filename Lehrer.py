@@ -6,7 +6,6 @@ class Lehrer(Benutzer):
         self.fach = fach
         self.klasse = klasse if klasse else []
 
-    #Methoden
     def get_fach(self):
         return self.fach
     
