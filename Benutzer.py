@@ -64,6 +64,12 @@ class Benutzer(abc.ABC):
 class Lehrer(Benutzer):
     def __init__(self, name, passwort=None, loginStatus=False):
         super().__init__(name, passwort, loginStatus, rolle="Lehrer")
+        
+    def zeige_klassenliste(self):
+        print("=== Klassenliste ===")
+        for benutzer in Benutzer.alleBenutzer.values():
+            if benutzer.rolle == "Schueler":
+                print(f"Schüler: {benutzer.getBenutzername()}")
 
 class Admin(Benutzer):
     def __init__(self, name, passwort=None, loginStatus=False):

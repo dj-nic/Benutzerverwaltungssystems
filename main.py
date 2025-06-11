@@ -22,7 +22,6 @@ def login():
     if username in Benutzer.Benutzer.alleBenutzer and password == Benutzer.Benutzer.alleBenutzer[username].getPasswort():
         print("Hat Geklappt")
         Benutzer.Benutzer.alleBenutzer[username].setLoginStatus(True)
-        return Benutzer.Benutzer.alleBenutzer[username]
     elif username not in Benutzer.Benutzer.alleBenutzer:
         print("Benutzer nicht gefunden.")
         return None
@@ -53,30 +52,28 @@ def home_menu(benutzer):
                 break
         elif benutzer.rolle == "Lehrer":
             print("1. Benutzerprofil anzeigen")
-            print("2. Noten verwalten")
-            print("3. Kurse verwalten")
-            print("4. Abmelden")
+            print("2. Klassenliste anzeigen")
+            print("3. Abmelden")
             auswahl = input("Bitte wählen (1-4): ")
             if auswahl == "1":
                 print(f"Profil von {benutzer.getBenutzername()}:")
                 benutzer.info()
             elif auswahl == "2":
-                print("...")
+                return Benutzer.Lehrer.zeige_klassenliste(benutzer)
             elif auswahl == "3":
-                print("...")
-            elif auswahl == "4":
                 print("Abgemeldet.")
                 Benutzer.Benutzer.alleBenutzer[username].setLoginStatus(False)
                 break
         elif benutzer.rolle == "Admin":
-            print("1. Benutzer verwalten")
-            print("2. Rollen verwalten")
+            print("1. Alle Benutzer anzeigen")
+            print("2. Benutzer löschen")
             print("3. Abmelden")
             auswahl = input("Bitte wählen (1-3): ")
             if auswahl == "1":
-                print("...")
+                benutzer.zeige_alle_benutzer()
             elif auswahl == "2":
-                print("...")
+                zu_loeschen = input("Benutzernamen zum Löschen eingeben: ")
+                benutzer.benutzer_loeschen(zu_loeschen)
             elif auswahl == "3":
                 print("Abgemeldet.")
                 Benutzer.Benutzer.alleBenutzer[username].setLoginStatus(False)
