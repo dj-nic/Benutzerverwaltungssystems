@@ -64,6 +64,9 @@ def home_menu(benutzer):
                 print("Abgemeldet.")
                 Benutzer.Benutzer.alleBenutzer[username].setLoginStatus(False)
                 break
+            else:
+                print("Funktion noch nicht implementiert.")
+                
         elif benutzer.rolle == "Admin":
             print("1. Alle Benutzer anzeigen")
             print("2. Benutzer löschen")
@@ -78,6 +81,9 @@ def home_menu(benutzer):
                 print("Abgemeldet.")
                 Benutzer.Benutzer.alleBenutzer[username].setLoginStatus(False)
                 break
+            else:
+                print("Ungültige Auswahl.")
+
         else:
             print("1. Profil anzeigen")
             print("2. Abmelden")
