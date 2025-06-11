@@ -1,123 +1,135 @@
 import Benutzer as Benutzer
+import Admin
+import Schueler
+import Lehrer
+
+def testdaten_anlegen():
+    # Admin
+    Admin.Admin("admin", "admin123")
+    # Lehrer
+    Lehrer.Lehrer("lehrer1", "pwlehrer", fach="Mathe", klasse=["10A"])
+    # Schüler mit Noten
+    s1 = Schueler.Schueler("max", "pwmax", klasse="10A")
+    s1.note_hinzufuegen("Mathe", 2)
+    s1.note_hinzufuegen("Deutsch", 3)
+    s2 = Schueler.Schueler("lisa", "pwLisa", klasse="10A")
+    s2.note_hinzufuegen("Mathe", 1)
+    # Benutzer ohne Rolle
+    Benutzer.Benutzer("gast", "gastpw")
 
 def registrieren():
-    print("\n--- Registrierung ---")
-    username = input("Neuer Benutzername: ")
+    print("--- Registrierung ---")
+    username = input("Benutzername: ")
     if username in Benutzer.Benutzer.alleBenutzer:
-        print("Benutzername wurde bereitsvergeben")
+        print("Name vergeben")
         return None
     passwort = input("Passwort: ")
     rolle = input("Rolle (Benutzer/Schueler/Lehrer/Admin): ")
     if rolle not in ["Benutzer", "Schueler", "Lehrer", "Admin"]:
-        print("Ungültige Rolle.")
+        print("Ungültige Rolle")
         return None
-    neuer_benutzer = Benutzer.getBenutzerKlasse(rolle)(username, passwort)
-    print(f"Benutzer '{username}' mit Rolle '{rolle}' wurde registriert.")
+    if rolle == "Admin":
+        neuer_benutzer = Admin.Admin(username, passwort)
+    elif rolle == "Schueler":
+        klasse = input("Klasse: ")
+        neuer_benutzer = Schueler.Schueler(username, passwort, klasse=klasse)
+    elif rolle == "Lehrer":
+        fach = input("Fach: ")
+        neuer_benutzer = Lehrer.Lehrer(username, passwort, fach=fach)
+    else:
+        neuer_benutzer = Benutzer.Benutzer(username, passwort)
+    print(f"{username} ({rolle}) registriert.")
     return neuer_benutzer
 
 def login():
-    print("\n--- Login ---")
+    print("--- Login ---")
     username = input("Benutzername: ")
     password = input("Passwort: ")
     if username in Benutzer.Benutzer.alleBenutzer and password == Benutzer.Benutzer.alleBenutzer[username].getPasswort():
-        print("Hat Geklappt")
         Benutzer.Benutzer.alleBenutzer[username].setLoginStatus(True)
+        benutzer = Benutzer.Benutzer.alleBenutzer[username]
+        print(f"Willkommen {benutzer.getBenutzername()}!")
+        return benutzer
     elif username not in Benutzer.Benutzer.alleBenutzer:
-        print("Benutzer nicht gefunden.")
+        print("Nicht gefunden")
         return None
     else:
-        print("Benutzername oder Passwort falsch.")
+        print("Falsche Daten")
         return None
 
 def home_menu(benutzer):
     while True:
         username = benutzer.getBenutzername()
-        print(f"\n--- Home Menü ({benutzer.rolle}) ---")
+        print(f"-- Menü ({benutzer.rolle}) --")
         if benutzer.rolle == "Schueler":
-            print("1. Benutzerprofil anzeigen")
-            print("2. Noten anzeigen")
-            print("3. Kurse anzeigen")
-            print("4. Abmelden")
-            auswahl = input("Bitte wählen (1-4): ")
+            print("1. Profil\n2. Noten\n3. Kurse\n4. Abmelden")
+            auswahl = input("> ")
             if auswahl == "1":
-                print(f"Profil von {benutzer.getBenutzername()}:")
                 benutzer.info()
             elif auswahl == "2":
-                print("...")
+                noten = benutzer.get_noten()
+                if noten:
+                    for fach, note in noten.items():
+                        print(f"{fach}: {note}")
+                else:
+                    print("Keine Noten")
             elif auswahl == "3":
-                print("...")
+                klassen = benutzer.get_klasse()
+                print(f"Klasse: {klassen if klassen else 'Keine Klasse zugewiesen'}")
             elif auswahl == "4":
-                print("Abgemeldet.")
-                Benutzer.Benutzer.alleBenutzer[username].setLoginStatus(False)
+                print("Abgemeldet")
+                benutzer.setLoginStatus(False)
                 break
         elif benutzer.rolle == "Lehrer":
-            print("1. Benutzerprofil anzeigen")
-            print("2. Klassenliste anzeigen")
-            print("3. Abmelden")
-            auswahl = input("Bitte wählen (1-4): ")
+            print("1. Profil\n2. Klassenliste\n3. Abmelden")
+            auswahl = input("> ")
             if auswahl == "1":
-                print(f"Profil von {benutzer.getBenutzername()}:")
                 benutzer.info()
             elif auswahl == "2":
-                return Benutzer.Lehrer.zeige_klassenliste(benutzer)
+                benutzer.zeige_klassenliste()
             elif auswahl == "3":
-                print("Abgemeldet.")
-                Benutzer.Benutzer.alleBenutzer[username].setLoginStatus(False)
+                print("Abgemeldet")
+                benutzer.setLoginStatus(False)
                 break
-            else:
-                print("Funktion noch nicht implementiert.")
-                
         elif benutzer.rolle == "Admin":
-            print("1. Alle Benutzer anzeigen")
-            print("2. Benutzer löschen")
-            print("3. Abmelden")
-            auswahl = input("Bitte wählen (1-3): ")
+            print("1. Alle Benutzer\n2. Löschen\n3. Abmelden")
+            auswahl = input("> ")
             if auswahl == "1":
-                benutzer.zeige_alle_benutzer()
+                benutzer.zeige_anzahl_benutzer()
             elif auswahl == "2":
-                zu_loeschen = input("Benutzernamen zum Löschen eingeben: ")
-                benutzer.benutzer_loeschen(zu_loeschen)
+                zu_loeschen = input("Name: ")
+                Admin.benutzer_loeschen(zu_loeschen)
             elif auswahl == "3":
-                print("Abgemeldet.")
-                Benutzer.Benutzer.alleBenutzer[username].setLoginStatus(False)
+                print("Abgemeldet")
+                benutzer.setLoginStatus(False)
                 break
-            else:
-                print("Ungültige Auswahl.")
-
         else:
-            print("1. Profil anzeigen")
-            print("2. Abmelden")
-            auswahl = input("Bitte wählen (1-2): ")
+            print("1. Profil\n2. Abmelden")
+            auswahl = input("> ")
             if auswahl == "1":
-                print(f"Profil von {benutzer.getBenutzername()}:")
-                benutzer.info()
+                Admin.Admin.zeige_anzahl_benutzer()
             elif auswahl == "2":
-                print("Abgemeldet.")
-                Benutzer.Benutzer.alleBenutzer[username].setLoginStatus(False)
-                Benutzer.Benutzer.alleBenutzer[username].getloginStatus()
+                print("Abgemeldet")
+                benutzer.setLoginStatus(False)
                 break
 
 def login_menu():
     while True:
-        print("\n--- Hauptmenü ---")
-        print("1. Einloggen")
-        print("2. Registrieren")
-        print("3. Beenden")
-        auswahl = input("Bitte wählen (1-3): ")
+        print("-- Hauptmenü --")
+        print("1. Login\n2. Registrieren\n3. Ende")
+        auswahl = input("> ")
         if auswahl == "1":
             benutzer = login()
             if benutzer:
-                print("Login erfolgreich")
                 home_menu(benutzer)
         elif auswahl == "2":
             registrieren()
         elif auswahl == "3":
             print("Tschüss")
             break
-        else:
-            print("Ungültige Auswahl.")
 
 def main():
+    testdaten_anlegen()
     login_menu()
 
 if __name__ == "__main__":
