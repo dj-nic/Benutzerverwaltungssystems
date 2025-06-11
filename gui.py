@@ -10,11 +10,19 @@ class BenutzerGUI:
         self.master = master
         self.current_user = None  # aktuell eingeloggter Benutzer
         master.title("Benutzerverwaltungssystem")
-        master.geometry("700x600")  # Fenstergröße größer setzen
+        self.center_window(700, 600)  # Fenster mittig setzen
         master.configure(bg="#f5f6fa")  # Helles Hintergrund-Theme
         self.frame = tk.Frame(master, bg="#f5f6fa")
         self.frame.pack(padx=30, pady=30, fill='both', expand=True)
         self.show_login()
+
+    def center_window(self, width=700, height=600):
+        # Bildschirmgröße ermitteln
+        screen_width = self.master.winfo_screenwidth()
+        screen_height = self.master.winfo_screenheight()
+        x = int((screen_width / 2) - (width / 2))
+        y = int((screen_height / 2) - (height / 2))
+        self.master.geometry(f"{width}x{height}+{x}+{y}")
 
     def clear_frame(self):
         for widget in self.frame.winfo_children():
