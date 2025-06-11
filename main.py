@@ -57,7 +57,6 @@ def login():
 
 def home_menu(benutzer):
     while True:
-        benutzer = benutzer.getBenutzername()
         print(f"-- Menü ({benutzer.rolle}) --")
         if benutzer.rolle == "Schueler":
             print("1. Profil\n2. Noten\n3. Kurse\n4. Abmelden")
