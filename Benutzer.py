@@ -61,33 +61,3 @@ class Benutzer(abc.ABC):
 
     
 
-class Lehrer(Benutzer):
-    def __init__(self, name, passwort=None, loginStatus=False):
-        super().__init__(name, passwort, loginStatus, rolle="Lehrer")
-        
-    def zeige_klassenliste(self):
-        print("=== Klassenliste ===")
-        for benutzer in Benutzer.alleBenutzer.values():
-            if benutzer.rolle == "Schueler":
-                print(f"Schüler: {benutzer.getBenutzername()}")
-
-class Admin(Benutzer):
-    def __init__(self, name, passwort=None, loginStatus=False):
-        super().__init__(name, passwort, loginStatus, rolle="Admin")
-
-class Schueler(Benutzer):
-    def __init__(self, name, passwort=None, loginStatus=False):
-        super().__init__(name, passwort, loginStatus, rolle="Schueler")
-
-def getBenutzerKlasse(rolle):
-    if rolle == "Lehrer":
-        return Lehrer
-    elif rolle == "Admin":
-        return Admin
-    elif rolle == "Schueler":
-        return Schueler
-    else:
-        return Benutzer
-
-def getBenutzerRechte(rolle):
-    return BENUTZER_RECHTE.get(rolle, [])

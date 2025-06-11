@@ -12,7 +12,8 @@ class Admin(Benutzer):
     def benutzer_loeschen(self, benutzername):
         if benutzername in Benutzer.alleBenutzer:
             del Benutzer.alleBenutzer[benutzername]
-            Benutzer.anzahl_benutzer -= 1
-            print(f"{benutzername} gelöscht.")
+            print(f"Benutzer '{benutzername}' wurde gelöscht.")
         else:
-            print(f"{benutzername} nicht gefunden.")
+            print(f"Benutzer '{benutzername}' wurde nicht gefunden.")
+
+
