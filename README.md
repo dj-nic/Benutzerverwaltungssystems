@@ -1,3 +1,13 @@
+# Badges und Technologien
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Tkinter-FFCA28?style=for-the-badge" alt="Tkinter">
+  <img src="https://img.shields.io/badge/OOP-Object%20Oriented-blue?style=for-the-badge" alt="OOP">
+  <img src="https://img.shields.io/badge/Scrum-Agile-green?style=for-the-badge" alt="Scrum">
+</p>
+
+---
 # User Stories und zugehörige Tasks (Scrum-Backlog)
 
 ## 1. Als Systementwickler möchte ich eine Oberklasse **Benutzer** implementieren, die allgemeine Eigenschaften und Methoden für alle Benutzer bereitstellt.
