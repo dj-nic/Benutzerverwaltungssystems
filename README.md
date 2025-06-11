@@ -1,9 +1,39 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Tkinter-FFCA28?style=for-the-badge" alt="Tkinter">
+  <img src="https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Tkinter-GUI-yellow?style=for-the-badge" alt="Tkinter">
   <img src="https://img.shields.io/badge/OOP-Object%20Oriented-blue?style=for-the-badge" alt="OOP">
   <img src="https://img.shields.io/badge/Scrum-Agile-green?style=for-the-badge" alt="Scrum">
+  <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge" alt="Status">
 </p>
+
+# Benutzerverwaltungssystem
+
+Ein rollenbasiertes Benutzerverwaltungssystem mit moderner GUI (Tkinter), objektorientiertem Ansatz und agiler Entwicklung nach Scrum.
+
+## Features
+- Benutzerrollen: Schüler, Lehrer, Administrator, Benutzer
+- Login/Logout, Registrierung
+- GUI mit moderner Oberfläche (Tkinter)
+- Benutzerverwaltung (Erstellen, Löschen, Anzeigen)
+- Klassen- und Notenverwaltung
+- Persistente Speicherung der Benutzer
+- Agile Entwicklung nach Scrum
+
+## Installation
+1. Python 3.12 installieren
+2. Repository herunterladen oder klonen
+3. Im Projektordner ausführen:
+   ```powershell
+   python gui.py
+   ```
+
+## Screenshots
+<!-- Hier können bei Bedarf Screenshots eingefügt werden -->
+
+## Lizenz
+Dieses Projekt ist für schulische Zwecke erstellt und steht unter keiner speziellen Lizenz.
+
+
 
 ---
 # User Stories und zugehörige Tasks (Scrum-Backlog)
