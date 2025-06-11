@@ -138,10 +138,13 @@ class BenutzerGUI:
         elif benutzer.rolle == "Lehrer":
             self.styled_button("Profil", lambda: self.show_profil(benutzer)).pack(fill='x', pady=2)
             self.styled_button("Klassenliste", lambda: self.show_klassenliste(benutzer)).pack(fill='x', pady=2)
+            self.styled_button("Schüler zu Klasse hinzufügen", lambda: self.show_schueler_hinzufuegen(benutzer)).pack(fill='x', pady=2)
+            self.styled_button("Note vergeben", lambda: self.show_note_vergeben(benutzer)).pack(fill='x', pady=2)
             self.styled_button("Abmelden", self.show_login, color="#636e72").pack(fill='x', pady=10)
         elif benutzer.rolle == "Admin":
             self.styled_button("Alle Benutzer anzeigen", self.show_alle_benutzer).pack(fill='x', pady=2)
             self.styled_button("Benutzer löschen", self.show_benutzer_loeschen).pack(fill='x', pady=2)
+            self.styled_button("Anzahl Benutzer anzeigen", self.show_anzahl_benutzer).pack(fill='x', pady=2)
             self.styled_button("Abmelden", self.show_login, color="#636e72").pack(fill='x', pady=10)
         else:
             self.styled_button("Profil", lambda: self.show_profil(benutzer)).pack(fill='x', pady=2)
@@ -208,6 +211,61 @@ class BenutzerGUI:
         else:
             messagebox.showerror("Fehler", f"Benutzer '{benutzername}' wurde nicht gefunden.")
         self.show_alle_benutzer()
+
+    def show_schueler_hinzufuegen(self, benutzer):
+        self.clear_frame()
+        self.styled_label("Schüler zu Klasse hinzufügen", size=18, bold=True, pady=10).pack(pady=10)
+        self.styled_label("Schülername:").pack(anchor='w')
+        self.schuelername_entry = self.styled_entry()
+        self.schuelername_entry.pack(fill='x', pady=2)
+        self.styled_label("Klasse:").pack(anchor='w')
+        self.klasse_entry = self.styled_entry()
+        self.klasse_entry.pack(fill='x', pady=2)
+        self.styled_button("Hinzufügen", lambda: self.schueler_hinzufuegen_action(benutzer)).pack(pady=12, fill='x')
+        self.styled_button(BUTTON_ZURUECK, lambda: self.show_home(benutzer), color="#636e72").pack(fill='x', pady=10)
+
+    def schueler_hinzufuegen_action(self, benutzer):
+        schuelername = self.schuelername_entry.get()
+        klasse = self.klasse_entry.get()
+        if schuelername in Benutzer.Benutzer.alleBenutzer:
+            benutzer.schueler_hinzufuegen(schuelername, klasse)
+            messagebox.showinfo("Erfolg", f"{schuelername} wurde der Klasse {klasse} hinzugefügt.")
+        else:
+            messagebox.showerror("Fehler", f"Schüler '{schuelername}' nicht gefunden.")
+        self.show_home(benutzer)
+
+    def show_note_vergeben(self, benutzer):
+        self.clear_frame()
+        self.styled_label("Note vergeben", size=18, bold=True, pady=10).pack(pady=10)
+        self.styled_label("Schülername:").pack(anchor='w')
+        self.note_schueler_entry = self.styled_entry()
+        self.note_schueler_entry.pack(fill='x', pady=2)
+        self.styled_label("Fach:").pack(anchor='w')
+        self.note_fach_entry = self.styled_entry()
+        self.note_fach_entry.pack(fill='x', pady=2)
+        self.styled_label("Note:").pack(anchor='w')
+        self.note_note_entry = self.styled_entry()
+        self.note_note_entry.pack(fill='x', pady=2)
+        self.styled_button("Vergeben", lambda: self.note_vergeben_action(benutzer)).pack(pady=12, fill='x')
+        self.styled_button(BUTTON_ZURUECK, lambda: self.show_home(benutzer), color="#636e72").pack(fill='x', pady=10)
+
+    def note_vergeben_action(self, benutzer):
+        schuelername = self.note_schueler_entry.get()
+        fach = self.note_fach_entry.get()
+        note = self.note_note_entry.get()
+        if schuelername in Benutzer.Benutzer.alleBenutzer:
+            benutzer.note_vergeben(schuelername, fach, note)
+            messagebox.showinfo("Erfolg", f"Note {note} in {fach} an {schuelername} vergeben.")
+        else:
+            messagebox.showerror("Fehler", f"Schüler '{schuelername}' nicht gefunden.")
+        self.show_home(benutzer)
+
+    def show_anzahl_benutzer(self):
+        self.clear_frame()
+        self.styled_label("Anzahl Benutzer", size=18, bold=True, pady=10).pack(pady=10)
+        anzahl = len(Benutzer.Benutzer.alleBenutzer)
+        self.styled_label(f"Es gibt aktuell {anzahl} Benutzer.", pady=5).pack(pady=5)
+        self.styled_button(BUTTON_ZURUECK, lambda: self.show_home(self.current_user), color="#636e72").pack(pady=10)
 
 if __name__ == "__main__":
     root = tk.Tk()
