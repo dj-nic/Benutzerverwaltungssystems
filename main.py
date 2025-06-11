@@ -22,6 +22,7 @@ def login():
     if username in Benutzer.Benutzer.alleBenutzer and password == Benutzer.Benutzer.alleBenutzer[username].getPasswort():
         print("Hat Geklappt")
         Benutzer.Benutzer.alleBenutzer[username].setLoginStatus(True)
+        return Benutzer.Benutzer.alleBenutzer[username]
     elif username not in Benutzer.Benutzer.alleBenutzer:
         print("Benutzer nicht gefunden.")
         return None
