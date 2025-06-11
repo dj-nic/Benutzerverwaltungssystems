@@ -10,47 +10,63 @@ class BenutzerGUI:
         self.master = master
         self.current_user = None  # aktuell eingeloggter Benutzer
         master.title("Benutzerverwaltungssystem")
-        self.frame = tk.Frame(master)
-        self.frame.pack(padx=20, pady=20)
+        master.geometry("700x600")  # Fenstergröße größer setzen
+        master.configure(bg="#f5f6fa")  # Helles Hintergrund-Theme
+        self.frame = tk.Frame(master, bg="#f5f6fa")
+        self.frame.pack(padx=30, pady=30, fill='both', expand=True)
         self.show_login()
 
     def clear_frame(self):
         for widget in self.frame.winfo_children():
             widget.destroy()
 
+    def styled_label(self, text, size=12, bold=False, pady=5):
+        font = ("Segoe UI", size, "bold" if bold else "normal")
+        return tk.Label(self.frame, text=text, font=font, bg="#f5f6fa", fg="#222f3e", pady=pady)
+
+    def styled_button(self, text, command, color="#0984e3"):
+        return tk.Button(self.frame, text=text, command=command, bg=color, fg="white", font=("Segoe UI", 11, "bold"), relief="flat", activebackground="#74b9ff", activeforeground="#222f3e", padx=8, pady=6, bd=0, cursor="hand2")
+
+    def styled_entry(self, show=None):
+        return tk.Entry(self.frame, font=("Segoe UI", 11), show=show, bg="#dfe6e9", fg="#222f3e", relief="flat", insertbackground="#222f3e")
+
     def show_login(self):
         self.clear_frame()
-        tk.Label(self.frame, text="Login", font=("Arial", 14)).pack(pady=5)
-        tk.Label(self.frame, text="Benutzername:").pack()
-        self.username_entry = tk.Entry(self.frame)
-        self.username_entry.pack()
-        tk.Label(self.frame, text="Passwort:").pack()
-        self.password_entry = tk.Entry(self.frame, show="*")
-        self.password_entry.pack()
-        tk.Button(self.frame, text="Login", command=self.login).pack(pady=5)
-        tk.Button(self.frame, text="Registrieren", command=self.show_register).pack()
+        self.styled_label("Login", size=18, bold=True, pady=10).pack(pady=10)
+        self.styled_label("Benutzername:").pack(anchor='w')
+        self.username_entry = self.styled_entry()
+        self.username_entry.pack(fill='x', pady=2)
+        self.styled_label("Passwort:").pack(anchor='w')
+        self.password_entry = self.styled_entry(show="*")
+        self.password_entry.pack(fill='x', pady=2)
+        self.styled_button("Login", self.login).pack(pady=12, fill='x')
+        self.styled_button("Registrieren", self.show_register, color="#636e72").pack(fill='x')
 
     def show_register(self):
         self.clear_frame()
-        tk.Label(self.frame, text="Registrierung", font=("Arial", 14)).pack(pady=5)
-        tk.Label(self.frame, text="Benutzername:").pack()
-        self.reg_username = tk.Entry(self.frame)
-        self.reg_username.pack()
-        tk.Label(self.frame, text="Passwort:").pack()
-        self.reg_password = tk.Entry(self.frame, show="*")
-        self.reg_password.pack()
-        tk.Label(self.frame, text="Rolle:").pack()
+        self.styled_label("Registrierung", size=18, bold=True, pady=10).pack(pady=10)
+        self.styled_label("Benutzername:").pack(anchor='w')
+        self.reg_username = self.styled_entry()
+        self.reg_username.pack(fill='x', pady=2)
+        self.styled_label("Passwort:").pack(anchor='w')
+        self.reg_password = self.styled_entry(show="*")
+        self.reg_password.pack(fill='x', pady=2)
+        self.styled_label("Rolle:").pack(anchor='w')
         self.reg_role = tk.StringVar()
         rollen = ["Benutzer", "Schueler", "Lehrer", "Admin"]
         self.reg_role.set(rollen[0])
-        tk.OptionMenu(self.frame, self.reg_role, *rollen).pack()
-        self.extra_label = tk.Label(self.frame)
-        self.extra_label.pack()
-        self.extra_entry = tk.Entry(self.frame)
-        self.extra_entry.pack()
+        # Modernes Dropdown-Menü
+        option_menu = tk.OptionMenu(self.frame, self.reg_role, *rollen)
+        option_menu.config(font=("Segoe UI", 11), bg="#dfe6e9", fg="#222f3e", relief="flat", highlightthickness=0, activebackground="#b2bec3")
+        option_menu['menu'].config(font=("Segoe UI", 11), bg="#dfe6e9", fg="#222f3e")
+        option_menu.pack(fill='x', pady=2)
+        self.extra_label = self.styled_label("")
+        self.extra_label.pack(anchor='w')
+        self.extra_entry = self.styled_entry()
+        self.extra_entry.pack(fill='x', pady=2)
         self.reg_role.trace("w", self.update_extra_field)
-        tk.Button(self.frame, text="Registrieren", command=self.register).pack(pady=5)
-        tk.Button(self.frame, text="Zurück", command=self.show_login).pack()
+        self.styled_button("Registrieren", self.register).pack(pady=12, fill='x')
+        self.styled_button("Zurück", self.show_login, color="#636e72").pack(fill='x')
         self.update_extra_field()
 
     def update_extra_field(self, *args):
@@ -58,11 +74,11 @@ class BenutzerGUI:
         if rolle == "Schueler":
             self.extra_label.config(text="Klasse:")
             self.extra_entry.delete(0, tk.END)
-            self.extra_entry.pack()
+            self.extra_entry.pack(fill='x', pady=2)
         elif rolle == "Lehrer":
             self.extra_label.config(text="Fach:")
             self.extra_entry.delete(0, tk.END)
-            self.extra_entry.pack()
+            self.extra_entry.pack(fill='x', pady=2)
         else:
             self.extra_label.config(text="")
             self.extra_entry.delete(0, tk.END)
@@ -101,76 +117,76 @@ class BenutzerGUI:
     def show_home(self, benutzer):
         self.current_user = benutzer
         self.clear_frame()
-        tk.Label(self.frame, text=f"Willkommen, {benutzer.name} ({benutzer.rolle})", font=("Arial", 14)).pack(pady=5)
+        self.styled_label(f"Willkommen, {benutzer.name} ({benutzer.rolle})", size=18, bold=True, pady=10).pack(pady=10)
         if benutzer.rolle == "Schueler":
-            tk.Button(self.frame, text="Profil", command=lambda: self.show_profil(benutzer)).pack(fill='x')
-            tk.Button(self.frame, text="Noten", command=lambda: self.show_noten(benutzer)).pack(fill='x')
-            tk.Button(self.frame, text="Kurse", command=lambda: self.show_klasse(benutzer)).pack(fill='x')
-            tk.Button(self.frame, text="Abmelden", command=self.show_login).pack(fill='x', pady=10)
+            self.styled_button("Profil", lambda: self.show_profil(benutzer)).pack(fill='x', pady=2)
+            self.styled_button("Noten", lambda: self.show_noten(benutzer)).pack(fill='x', pady=2)
+            self.styled_button("Kurse", lambda: self.show_klasse(benutzer)).pack(fill='x', pady=2)
+            self.styled_button("Abmelden", self.show_login, color="#636e72").pack(fill='x', pady=10)
         elif benutzer.rolle == "Lehrer":
-            tk.Button(self.frame, text="Profil", command=lambda: self.show_profil(benutzer)).pack(fill='x')
-            tk.Button(self.frame, text="Klassenliste", command=lambda: self.show_klassenliste(benutzer)).pack(fill='x')
-            tk.Button(self.frame, text="Abmelden", command=self.show_login).pack(fill='x', pady=10)
+            self.styled_button("Profil", lambda: self.show_profil(benutzer)).pack(fill='x', pady=2)
+            self.styled_button("Klassenliste", lambda: self.show_klassenliste(benutzer)).pack(fill='x', pady=2)
+            self.styled_button("Abmelden", self.show_login, color="#636e72").pack(fill='x', pady=10)
         elif benutzer.rolle == "Admin":
-            tk.Button(self.frame, text="Alle Benutzer anzeigen", command=self.show_alle_benutzer).pack(fill='x')
-            tk.Button(self.frame, text="Benutzer löschen", command=self.show_benutzer_loeschen).pack(fill='x')
-            tk.Button(self.frame, text="Abmelden", command=self.show_login).pack(fill='x', pady=10)
+            self.styled_button("Alle Benutzer anzeigen", self.show_alle_benutzer).pack(fill='x', pady=2)
+            self.styled_button("Benutzer löschen", self.show_benutzer_loeschen).pack(fill='x', pady=2)
+            self.styled_button("Abmelden", self.show_login, color="#636e72").pack(fill='x', pady=10)
         else:
-            tk.Button(self.frame, text="Profil", command=lambda: self.show_profil(benutzer)).pack(fill='x')
-            tk.Button(self.frame, text="Abmelden", command=self.show_login).pack(fill='x', pady=10)
+            self.styled_button("Profil", lambda: self.show_profil(benutzer)).pack(fill='x', pady=2)
+            self.styled_button("Abmelden", self.show_login, color="#636e72").pack(fill='x', pady=10)
 
     def show_profil(self, benutzer):
         self.clear_frame()
         info = f"Name: {benutzer.name}\nRolle: {benutzer.rolle}\nLogin-Status: {'Eingeloggt' if benutzer.loginStatus else 'Ausgeloggt'}\nRechte: {', '.join(benutzer.rechte)}"
-        tk.Label(self.frame, text="Profil", font=("Arial", 14)).pack(pady=5)
-        tk.Label(self.frame, text=info, justify='left').pack(pady=5)
-        tk.Button(self.frame, text="Zurück", command=lambda: self.show_home(benutzer)).pack(pady=10)
+        self.styled_label("Profil", size=18, bold=True, pady=10).pack(pady=10)
+        self.styled_label(info, pady=5).pack(pady=5)
+        self.styled_button("Zurück", lambda: self.show_home(benutzer), color="#636e72").pack(pady=10)
 
     def show_noten(self, benutzer):
         self.clear_frame()
-        tk.Label(self.frame, text="Noten", font=("Arial", 14)).pack(pady=5)
+        self.styled_label("Noten", size=18, bold=True, pady=10).pack(pady=10)
         noten = benutzer.get_noten()
         if (noten):
             for fach, note in noten.items():
-                tk.Label(self.frame, text=f"{fach}: {note}").pack()
+                self.styled_label(f"{fach}: {note}", pady=2).pack()
         else:
-            tk.Label(self.frame, text="Keine Noten vorhanden.").pack()
-        tk.Button(self.frame, text="Zurück", command=lambda: self.show_home(benutzer)).pack(pady=10)
+            self.styled_label("Keine Noten vorhanden.", pady=2).pack()
+        self.styled_button("Zurück", lambda: self.show_home(benutzer), color="#636e72").pack(pady=10)
 
     def show_klasse(self, benutzer):
         self.clear_frame()
-        tk.Label(self.frame, text="Kurse/Klasse", font=("Arial", 14)).pack(pady=5)
+        self.styled_label("Kurse/Klasse", size=18, bold=True, pady=10).pack(pady=10)
         klasse = benutzer.get_klasse()
-        tk.Label(self.frame, text=f"Klasse: {klasse if klasse else 'Keine Klasse zugewiesen'}").pack()
-        tk.Button(self.frame, text="Zurück", command=lambda: self.show_home(benutzer)).pack(pady=10)
+        self.styled_label(f"Klasse: {klasse if klasse else 'Keine Klasse zugewiesen'}", pady=2).pack()
+        self.styled_button("Zurück", lambda: self.show_home(benutzer), color="#636e72").pack(pady=10)
 
     def show_klassenliste(self, benutzer):
         self.clear_frame()
-        tk.Label(self.frame, text="Klassenliste", font=("Arial", 14)).pack(pady=5)
+        self.styled_label("Klassenliste", size=18, bold=True, pady=10).pack(pady=10)
         found = False
         for b in Benutzer.Benutzer.alleBenutzer.values():
             if hasattr(b, "klasse") and b.rolle == "Schueler":
-                tk.Label(self.frame, text=f"{b.getBenutzername()} (Klasse: {b.get_klasse()})").pack()
+                self.styled_label(f"{b.getBenutzername()} (Klasse: {b.get_klasse()})", pady=2).pack()
                 found = True
         if not found:
-            tk.Label(self.frame, text="Keine Schüler gefunden.").pack()
-        tk.Button(self.frame, text="Zurück", command=lambda: self.show_home(benutzer)).pack(pady=10)
+            self.styled_label("Keine Schüler gefunden.", pady=2).pack()
+        self.styled_button("Zurück", lambda: self.show_home(benutzer), color="#636e72").pack(pady=10)
 
     def show_alle_benutzer(self):
         self.clear_frame()
-        tk.Label(self.frame, text="Alle Benutzer", font=("Arial", 14)).pack(pady=5)
+        self.styled_label("Alle Benutzer", size=18, bold=True, pady=10).pack(pady=10)
         for b in Benutzer.Benutzer.alleBenutzer.values():
-            tk.Label(self.frame, text=f"Name: {b.getBenutzername()}, Rolle: {b.rolle}").pack()
-        tk.Button(self.frame, text="Zurück", command=lambda: self.show_home(self.current_user)).pack(pady=10)
+            self.styled_label(f"Name: {b.getBenutzername()}, Rolle: {b.rolle}", pady=2).pack()
+        self.styled_button("Zurück", lambda: self.show_home(self.current_user), color="#636e72").pack(pady=10)
 
     def show_benutzer_loeschen(self):
         self.clear_frame()
-        tk.Label(self.frame, text="Benutzer löschen", font=("Arial", 14)).pack(pady=5)
-        tk.Label(self.frame, text="Benutzername:").pack()
-        self.loesch_entry = tk.Entry(self.frame)
-        self.loesch_entry.pack()
-        tk.Button(self.frame, text="Löschen", command=self.benutzer_loeschen).pack(pady=5)
-        tk.Button(self.frame, text="Zurück", command=lambda: self.show_home(self.current_user)).pack(pady=10)
+        self.styled_label("Benutzer löschen", size=18, bold=True, pady=10).pack(pady=10)
+        self.styled_label("Benutzername:").pack(anchor='w')
+        self.loesch_entry = self.styled_entry()
+        self.loesch_entry.pack(fill='x', pady=2)
+        self.styled_button("Löschen", self.benutzer_loeschen, color="#d63031").pack(pady=12, fill='x')
+        self.styled_button("Zurück", lambda: self.show_home(self.current_user), color="#636e72").pack(fill='x', pady=10)
 
     def benutzer_loeschen(self):
         benutzername = self.loesch_entry.get()
