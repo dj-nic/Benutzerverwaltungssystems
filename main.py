@@ -78,13 +78,22 @@ def home_menu(benutzer):
                 benutzer.setLoginStatus(False)
                 break
         elif benutzer.rolle == "Lehrer":
-            print("1. Profil\n2. Klassenliste\n3. Abmelden")
+            print("1. Profil\n2. Klassenliste\n3. Schüler zu Klasse\n4. Note vergeben\n5. Abmelden")
             auswahl = input("> ")
             if auswahl == "1":
                 benutzer.info()
             elif auswahl == "2":
                 benutzer.zeige_klassenliste()
             elif auswahl == "3":
+                schuelername = input("Schülername: ")
+                klasse = input("Klasse: ")
+                benutzer.schueler_hinzufuegen(schuelername, klasse)
+            elif auswahl == "4":
+                schuelername = input("Schülername: ")
+                fach = input("Fach: ")
+                note = input("Note: ")
+                benutzer.note_vergeben(schuelername, fach, note)
+            elif auswahl == "5":
                 print("Abgemeldet")
                 benutzer.setLoginStatus(False)
                 break

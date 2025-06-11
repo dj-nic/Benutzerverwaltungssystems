@@ -20,7 +20,6 @@ class Benutzer(abc.ABC):
         Benutzer.anzahl_benutzer += 1
         Benutzer.alleBenutzer[name] = self
 
-    # Getter-Methoden
     def getBenutzername(self):
         return self.name
     
@@ -33,7 +32,7 @@ class Benutzer(abc.ABC):
     def getRechte(self):
         return self.rechte
 
-    # Setter-Methoden
+    
     def setBenutzername(self, name):
         self.name = name
     

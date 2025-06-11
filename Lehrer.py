@@ -16,6 +16,26 @@ class Lehrer(Benutzer):
         if neueKlasse not in self.klasse:
             self.klasse.append(neueKlasse)
 
+    def schueler_hinzufuegen(self, schuelername, klasse):
+        from Schueler import Schueler
+        if schuelername in Benutzer.alleBenutzer and isinstance(Benutzer.alleBenutzer[schuelername], Schueler):
+            schueler = Benutzer.alleBenutzer[schuelername]
+            schueler.set_klasse(klasse)
+            if klasse not in self.klasse:
+                self.klasse.append(klasse)
+            print(f"{schuelername} wurde der Klasse {klasse} zugewiesen.")
+        else:
+            print(f"{schuelername} ist kein Schüler.")
+
+    def note_vergeben(self, schuelername, fach, note):
+        from Schueler import Schueler
+        if schuelername in Benutzer.alleBenutzer and isinstance(Benutzer.alleBenutzer[schuelername], Schueler):
+            schueler = Benutzer.alleBenutzer[schuelername]
+            schueler.note_hinzufuegen(fach, note)
+            print(f"Note {note} in {fach} an {schuelername} vergeben.")
+        else:
+            print(f"{schuelername} ist kein Schüler.")
+
     def zeige_klassenliste(self):
         print("--- Klassenliste ---")
         for benutzer in Benutzer.alleBenutzer.values():
