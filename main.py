@@ -1,4 +1,4 @@
-import Benutzer as Benutzer
+import Benutzer 
 import Admin
 import Schueler
 import Lehrer

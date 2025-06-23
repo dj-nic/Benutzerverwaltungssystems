@@ -1,4 +1,4 @@
-from Benutzer import Benutzer
+import Benutzer
 
 class Admin(Benutzer):
     def __init__(self, name, passwort=None, loginStatus=False):
