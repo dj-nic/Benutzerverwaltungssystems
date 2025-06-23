@@ -7,16 +7,14 @@ def testdaten_anlegen():
     # Admin
     Admin.Admin("admin", "admin123")
     # Lehrer
-    Lehrer.Lehrer("lehrer1", "pwlehrer", fach="Mathe", klasse=["10A"])
-    # Schüler mit Noten
-    s1 = Schueler.Schueler("max", "pwmax", klasse="10A")
+    Lehrer.Lehrer("Nico", "pwlehrer", fach="Mathe", klasse=["10A"])
+    # Schüler
+    s1 = Schueler.Schueler("Max", "pwmax", klasse="10A")
     s1.note_hinzufuegen("Mathe", 2)
     s1.note_hinzufuegen("Deutsch", 3)
-    s2 = Schueler.Schueler("lisa", "pwLisa", klasse="10A")
+    s2 = Schueler.Schueler("Lisa", "pwlisa", klasse="10A")
     s2.note_hinzufuegen("Mathe", 1)
-    # Benutzer ohne Rolle
-    Benutzer.Benutzer("gast", "gastpw")
-
+    
 def registrieren():
     print("--- Registrierung ---")
     username = input("Benutzername: ")
