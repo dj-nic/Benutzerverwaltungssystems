@@ -4,13 +4,27 @@ import Benutzer
 import Admin
 import Schueler
 import Lehrer
+import pickle
 
 FONT_FAMILY = "Segoe UI"
 LABEL_BENUTZERNAME = "Benutzername:"
 BUTTON_ZURUECK = "Zurück"
 
+def benutzer_speichern(dateiname="benutzer.pkl"):
+    with open(dateiname, "wb") as f:
+        pickle.dump(Benutzer.Benutzer.alleBenutzer, f)
+
+def benutzer_laden(dateiname="benutzer.pkl"):
+    try:
+        with open(dateiname, "rb") as f:
+            Benutzer.Benutzer.alleBenutzer = pickle.load(f)
+            Benutzer.Benutzer.anzahl_benutzer = len(Benutzer.Benutzer.alleBenutzer)
+    except FileNotFoundError:
+        pass
+
 class BenutzerGUI:
     def __init__(self, master):
+        benutzer_laden()  # Benutzer beim Start laden
         self.master = master
         self.current_user = None  # aktuell eingeloggter Benutzer
         master.title("Benutzerverwaltungssystem")
@@ -19,6 +33,11 @@ class BenutzerGUI:
         self.frame = tk.Frame(master, bg="#f5f6fa")
         self.frame.pack(padx=30, pady=30, fill='both', expand=True)
         self.show_login()
+        self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+    def on_closing(self):
+        benutzer_speichern()  # Benutzer automatisch speichern
+        self.master.destroy()
 
     def center_window(self, width=700, height=600):
         # Bildschirmgröße ermitteln
