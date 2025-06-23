@@ -60,7 +60,7 @@ def home_menu(benutzer):
         print(f"-- Menü ({benutzer.rolle}) --")
         if benutzer.rolle == "Schueler":
             print("1. Profil\n2. Noten\n3. Kurse\n4. Abmelden")
-            auswahl = input("> ")
+            auswahl = input("")
             if auswahl == "1":
                 benutzer.info()
             elif auswahl == "2":
@@ -79,7 +79,7 @@ def home_menu(benutzer):
                 break
         elif benutzer.rolle == "Lehrer":
             print("1. Profil\n2. Klassenliste\n3. Schüler zu Klasse\n4. Note vergeben\n5. Abmelden")
-            auswahl = input("> ")
+            auswahl = input("")
             if auswahl == "1":
                 benutzer.info()
             elif auswahl == "2":
@@ -99,7 +99,7 @@ def home_menu(benutzer):
                 break
         elif benutzer.rolle == "Admin":
             print("1. Alle Benutzer\n2. Löschen\n3. Abmelden")
-            auswahl = input("> ")
+            auswahl = input("")
             if auswahl == "1":
                 Benutzer.Benutzer.zeige_anzahl_benutzer()
             elif auswahl == "2":
@@ -111,7 +111,7 @@ def home_menu(benutzer):
                 break
         else:
             print("1. Profil\n2. Abmelden")
-            auswahl = input("> ")
+            auswahl = input("")
             if auswahl == "1":
                 Admin.Admin.zeige_anzahl_benutzer()
             elif auswahl == "2":
@@ -123,7 +123,7 @@ def login_menu():
     while True:
         print("-- Hauptmenü --")
         print("1. Login\n2. Registrieren\n3. Ende")
-        auswahl = input("> ")
+        auswahl = input("")
         if auswahl == "1":
             benutzer = login()
             if benutzer:
