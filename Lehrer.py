@@ -1,6 +1,6 @@
 import Benutzer
 
-class Lehrer(Benutzer):
+class Lehrer(Benutzer.Benutzer):
     def __init__(self, name, passwort=None, loginStatus=False, fach=None, klasse=None):
         super().__init__(name, passwort, loginStatus, rolle="Lehrer")
         self.fach = fach
@@ -18,8 +18,8 @@ class Lehrer(Benutzer):
 
     def schueler_hinzufuegen(self, schuelername, klasse):
         from Schueler import Schueler
-        if schuelername in Benutzer.alleBenutzer and isinstance(Benutzer.alleBenutzer[schuelername], Schueler):
-            schueler = Benutzer.alleBenutzer[schuelername]
+        if schuelername in Benutzer.Benutzer.alleBenutzer and isinstance(Benutzer.Benutzer.alleBenutzer[schuelername], Schueler):
+            schueler = Benutzer.Benutzer.alleBenutzer[schuelername]
             schueler.set_klasse(klasse)
             if klasse not in self.klasse:
                 self.klasse.append(klasse)
@@ -29,8 +29,8 @@ class Lehrer(Benutzer):
 
     def note_vergeben(self, schuelername, fach, note):
         from Schueler import Schueler
-        if schuelername in Benutzer.alleBenutzer and isinstance(Benutzer.alleBenutzer[schuelername], Schueler):
-            schueler = Benutzer.alleBenutzer[schuelername]
+        if schuelername in Benutzer.Benutzer.alleBenutzer and isinstance(Benutzer.Benutzer.alleBenutzer[schuelername], Schueler):
+            schueler = Benutzer.Benutzer.alleBenutzer[schuelername]
             schueler.note_hinzufuegen(fach, note)
             print(f"Note {note} in {fach} an {schuelername} vergeben.")
         else:
@@ -38,7 +38,7 @@ class Lehrer(Benutzer):
 
     def zeige_klassenliste(self):
         print("--- Klassenliste ---")
-        for benutzer in Benutzer.alleBenutzer.values():
+        for benutzer in Benutzer.Benutzer.alleBenutzer.values():
             if hasattr(benutzer, "klasse") and benutzer.rolle == "Schueler":
                 print(f"{benutzer.getBenutzername()} (Klasse: {benutzer.get_klasse()})")
 

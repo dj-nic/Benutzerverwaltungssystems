@@ -1,6 +1,6 @@
 import Benutzer
 
-class Schueler(Benutzer):
+class Schueler(Benutzer.Benutzer):
     def __init__(self, name, passwort=None, loginStatus=False, klasse=None):
         super().__init__(name, passwort, loginStatus, rolle="Schueler")
         self.klasse = klasse
